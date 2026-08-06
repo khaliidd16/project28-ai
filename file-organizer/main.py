@@ -3,44 +3,52 @@ from pathlib import Path
 
 folder = Path("test_files")
 
-files = folder.iterdir()
+# print("Enter your name...")
+# name = input()
 
-images_folder = folder / "Images"
-images_folder.mkdir(exist_ok=True)
+# def greet_user(user_name):
+#     print("Welcome, ", user_name)
 
-documents_folder = folder / "Documents"
-documents_folder.mkdir(exist_ok=True)
+# greet_user(name)
 
-music_folder = folder / "Music"
-music_folder.mkdir(exist_ok=True)
+file_types = {
+    ".jpg": "Images",
+    ".jpeg": "Images",
+    ".png": "Images",
+    ".mp3": "Music",
+    ".wav": "Music",
+    ".mp4": "Videos",
+    ".mov": "Videos",
+    ".pdf": "Documents",
+    ".txt": "Documents",
+    ".docx": "Documents",
+    ".zip": "Archives",
+    ".rar": "Archives"
+}
+
+
+def move_file(file, folder):
+    destination = folder / file.name
+    shutil.move(file, destination)
+
 
 for file in folder.iterdir():
-    extension = file.suffix.lower()
 
-    if extension in [".jpg", ".jpeg", ".png"]:
-        print(f"{file.name} -> Images")
-        destination = images_folder / file.name
-        shutil.move(file, destination)
-        print(destination)
+    if file.is_file():
 
-    elif extension in [".mp3", ".wav"]:
-        print(f"{file.name} -> Music")
-        destination = music_folder / file.name
-        shutil.move(file, destination)
-        print(destination)
+        # Get the file extension
+        extension = file.suffix.lower()
 
+        # Find which folder the file belongs to
+        folder_name = file_types.get(extension, "Other")
 
-    elif extension in [".mp4", ".mov"]:
-        print(f"{file.name} -> Videos")
+        # Create the destination path
+        destination_folder = folder / folder_name
 
-    elif extension in [".pdf", ".txt", ".docx"]:
-        print(f"{file.name} -> Documents")
-        destination = documents_folder / file.name
-        shutil.move(file, destination)
-        print(destination)
+        # Create the folder if it doesn't exist
+        destination_folder.mkdir(exist_ok=True)
 
-    elif extension in [".zip", ".rar"]:
-        print(f"{file.name} -> Archives")
+        # Move the file
+        move_file(file, destination_folder)
 
-    else:
-        print(f"{file.name} -> Other")
+        print(f"{file.name} -> {folder_name}")
