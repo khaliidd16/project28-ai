@@ -26,3 +26,20 @@ The File Organizer automatically organizes files into folders based on their fil
 - Music: `.mp3`, `.wav`
 - Videos: `.mp4`, `.mov`
 - Archives: `.zip`, `.rar`
+
+## How to Run
+
+1. Put files inside the `test_files` folder.
+2. Run:
+
+```bash
+python main.py
+```
+
+3. The program will automatically move each file to the correct folder.
+
+## Technologies
+
+- Python
+- pathlib
+- shutil
